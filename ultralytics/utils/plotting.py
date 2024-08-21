@@ -161,16 +161,16 @@ class Annotator:
         self.kpt_color = colors.pose_palette[[16, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9]]
 
     def box_label(self, box, label="", color=(128, 128, 128), txt_color=(255, 255, 255), rotated=False):
-        """Add one xyxy box to image with label."""
         if isinstance(box, torch.Tensor):
             box = box.tolist()
+        line_width = self.lw if self.lw else 3
         if self.pil or not is_ascii(label):
             if rotated:
                 p1 = box[0]
-                self.draw.polygon([tuple(b) for b in box], width=self.lw, outline=color)
+                self.draw.polygon([tuple(b) for b in box], width=line_width, outline=color)
             else:
                 p1 = (box[0], box[1])
-                self.draw.rectangle(box, width=self.lw, outline=color)
+                self.draw.rectangle(box, width=line_width, outline=color)
             if label:
                 w, h = self.font.getsize(label)
                 outside = p1[1] - h >= 0
@@ -182,10 +182,10 @@ class Annotator:
         else:
             if rotated:
                 p1 = [int(b) for b in box[0]]
-                cv2.polylines(self.im, [np.asarray(box, dtype=int)], True, color, self.lw)
+                cv2.polylines(self.im, [np.asarray(box, dtype=int)], True, color, line_width)
             else:
                 p1, p2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
-                cv2.rectangle(self.im, p1, p2, color, thickness=self.lw, lineType=cv2.LINE_AA)
+                cv2.rectangle(self.im, p1, p2, color, thickness=line_width, lineType=cv2.LINE_AA)
             if label:
                 w, h = cv2.getTextSize(label, 0, fontScale=self.sf, thickness=self.tf)[0]
                 outside = p1[1] - h >= 3

@@ -282,8 +282,8 @@ class Results(SimpleClass):
             count_text1 = f"round snail: {cls_counts[0]}"
             count_text2 = f"conical snail: {cls_counts[1]}"
 
-            annotator.text([0, 50], count_text1, (255, 255, 255), 'top',True, 16)
-            annotator.text([50, 150], count_text2, (255, 255, 255), 'top', True,16)
+            annotator.text([20, 60], count_text1, (255, 0, 0), 'top',True, 24)
+            annotator.text([20, 100], count_text2, (255, 0, 0), 'top', True, 24)
 
         for d in reversed(pred_boxes):
                 c, conf, id = int(d.cls), float(d.conf) if conf else None, None if d.id is None else int(d.id.item())

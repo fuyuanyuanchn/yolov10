@@ -286,9 +286,9 @@ class Results(SimpleClass):
             count_text2 = f"conical snail: {cls_counts[1]}"
 
             # 调整文本位置和大小
-            annotator.text([30, 30], count_text1, txt_color=(255, 255, 255), anchor='top', font_size=font_size * 1.5)
+            annotator.text([30, 30], count_text1, txt_color=(255, 255, 255), anchor='top', box_style=False)
             annotator.text([30, 30 + font_size * 2], count_text2, txt_color=(255, 255, 255), anchor='top',
-                           font_size=font_size * 1.5)
+                           box_style=False)
 
         for d in reversed(pred_boxes):
                 c, conf, id = int(d.cls), float(d.conf) if conf else None, None if d.id is None else int(d.id.item())

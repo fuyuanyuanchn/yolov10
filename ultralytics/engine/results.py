@@ -187,7 +187,7 @@ class Results(SimpleClass):
         self,
         conf=True,
         line_width=None,
-        font_size=20,
+        font_size=10,
         font="Arial.ttf",
         pil=False,
         img=None,

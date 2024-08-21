@@ -34,7 +34,7 @@ class Colors:
         """Initialize colors as hex = matplotlib.colors.TABLEAU_COLORS.values()."""
         hexs = (
             "FF3838",
-            "FF9D97",
+            "00FF00",
             "FF701F",
             "FFB21D",
             "CFD231",

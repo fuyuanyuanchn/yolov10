@@ -187,7 +187,7 @@ class Results(SimpleClass):
         self,
         conf=True,
         line_width=None,
-        font_size=None,
+        font_size=20,
         font="Arial.ttf",
         pil=False,
         img=None,
@@ -249,9 +249,6 @@ class Results(SimpleClass):
         pred_masks, show_masks = self.masks, masks
         pred_probs, show_probs = self.probs, probs
 
-        if font_size is None:
-            font_size = max(round(sum(self.orig_img.shape) / 2 * 0.035), 12)
-
         annotator = Annotator(
             deepcopy(self.orig_img if img is None else img),
             line_width,
@@ -287,7 +284,7 @@ class Results(SimpleClass):
 
             # 调整文本位置和大小
             annotator.text([30, 30], count_text1, txt_color=(255, 255, 255), anchor='top', box_style=False)
-            annotator.text([30, 30 + font_size * 2], count_text2, txt_color=(255, 255, 255), anchor='top',
+            annotator.text([30, 90], count_text2, txt_color=(255, 255, 255), anchor='top',
                            box_style=False)
 
         for d in reversed(pred_boxes):

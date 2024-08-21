@@ -291,8 +291,14 @@ class Annotator:
         """Add rectangle to image (PIL-only)."""
         self.draw.rectangle(xy, fill, outline, width)
 
-    def text(self, xy, text, txt_color=(255, 255, 255), anchor="top", box_style=False):
+    def text(self, xy, text, txt_color=(255, 255, 255), anchor="top", box_style=False, font_size=None):
         """Adds text to an image using PIL or cv2."""
+        if font_size:
+            if self.pil:
+                self.font = ImageFont.truetype(self.font.path, font_size)
+            else:
+                self.sf = font_size / 20
+
         if anchor == "bottom":  # start y from font bottom
             w, h = self.font.getsize(text)  # text width, height
             xy[1] += 1 - h
@@ -300,7 +306,6 @@ class Annotator:
             if box_style:
                 w, h = self.font.getsize(text)
                 self.draw.rectangle((xy[0], xy[1], xy[0] + w + 1, xy[1] + h + 1), fill=txt_color)
-                # Using `txt_color` for background and draw fg with white color
                 txt_color = (255, 255, 255)
             if "\n" in text:
                 lines = text.split("\n")
@@ -316,7 +321,6 @@ class Annotator:
                 outside = xy[1] - h >= 3
                 p2 = xy[0] + w, xy[1] - h - 3 if outside else xy[1] + h + 3
                 cv2.rectangle(self.im, xy, p2, txt_color, -1, cv2.LINE_AA)  # filled
-                # Using `txt_color` for background and draw fg with white color
                 txt_color = (255, 255, 255)
             cv2.putText(self.im, text, xy, 0, self.sf, txt_color, thickness=self.tf, lineType=cv2.LINE_AA)
 

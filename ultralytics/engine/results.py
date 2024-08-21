@@ -186,8 +186,8 @@ class Results(SimpleClass):
     def plot(
         self,
         conf=True,
-        line_width=None,
-        font_size=10,
+        line_width=2,
+        font_size=2,
         font="Arial.ttf",
         pil=False,
         img=None,
@@ -282,10 +282,8 @@ class Results(SimpleClass):
             count_text1 = f"round snail: {cls_counts[0]}"
             count_text2 = f"conical snail: {cls_counts[1]}"
 
-            # 调整文本位置和大小
-            annotator.text([30, 30], count_text1, txt_color=(255, 255, 255), anchor='top', box_style=False)
-            annotator.text([30, 90], count_text2, txt_color=(255, 255, 255), anchor='top',
-                           box_style=False)
+            annotator.text([0, 50], count_text1, (255, 255, 255), 'top',True, 16)
+            annotator.text([50, 150], count_text2, (255, 255, 255), 'top', True,16)
 
         for d in reversed(pred_boxes):
                 c, conf, id = int(d.cls), float(d.conf) if conf else None, None if d.id is None else int(d.id.item())

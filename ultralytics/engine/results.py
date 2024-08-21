@@ -248,6 +248,10 @@ class Results(SimpleClass):
         pred_boxes, show_boxes = self.obb if is_obb else self.boxes, boxes
         pred_masks, show_masks = self.masks, masks
         pred_probs, show_probs = self.probs, probs
+
+        if font_size is None:
+            font_size = max(round(sum(self.orig_img.shape) / 2 * 0.035), 12)
+
         annotator = Annotator(
             deepcopy(self.orig_img if img is None else img),
             line_width,
@@ -273,7 +277,20 @@ class Results(SimpleClass):
 
         # Plot Detect results
         if pred_boxes is not None and show_boxes:
-            for d in reversed(pred_boxes):
+            cls_counts = {0: 0, 1: 0}
+            for d in pred_boxes:
+                c = int(d.cls)
+                cls_counts[c] += 1
+
+            count_text1 = f"round snail: {cls_counts[0]}"
+            count_text2 = f"conical snail: {cls_counts[1]}"
+
+            # 调整文本位置和大小
+            annotator.text([30, 30], count_text1, txt_color=(255, 255, 255), anchor='top', font_size=font_size * 1.5)
+            annotator.text([30, 30 + font_size * 2], count_text2, txt_color=(255, 255, 255), anchor='top',
+                           font_size=font_size * 1.5)
+
+        for d in reversed(pred_boxes):
                 c, conf, id = int(d.cls), float(d.conf) if conf else None, None if d.id is None else int(d.id.item())
                 name = ("" if id is None else f"id:{id} ") + names[c]
                 label = (f"{name} {conf:.2f}" if conf else name) if labels else None
